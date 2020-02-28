@@ -1,6 +1,15 @@
 <template>
   <div class="product-list">
     <!--       这是头部-->
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+
+        </div>
+      </el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+    </el-row>
     <el-form :inline="true" :model="queryTableData" class="demo-form-inline" ref="formRef">
       <el-form-item label="订单号">
         <el-input v-model="queryTableData.orderNo" placeholder="请输入订单号"></el-input>
@@ -24,7 +33,7 @@
             v-for="(item,index) in productList"
             :key="index"
             :label="item.name"
-            :value="item.code">
+            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -79,6 +88,7 @@
         prop="orderState"
         label="订单状态"
         width="100">
+        <template slot-scope="scope">{{scope.row.orderState | ORDER_STATE_FILTER}}</template>
       </el-table-column>
       <el-table-column
         prop="withdrawAmount"
@@ -254,14 +264,31 @@
     width: 100%;
     height: 100%;
   }
-  .text{
-    text-align: center;
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
-  .left-item{
-    text-align: right;
+  .el-col {
+    border-radius: 4px;
   }
-  .right-item{
-    text-align: left;
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 80px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
   }
 
 </style>

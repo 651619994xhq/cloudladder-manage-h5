@@ -1,5 +1,13 @@
 import Vue from 'vue'
-// import {ORDER_STATE,COOPERATION_WAY,REPAY_TYPE,LOAN_STATE,REPAY_STATE,AUDIT_STATE,MAKE_LOAN_STATE,REPAY_PERIOD,GUARANTY_TYPE,TRANSACTION_STATUS,LOAN_TYPE} from 'utils/constants';
+import {ORDER_STATE} from 'utils/constants';
+Vue.filter('ORDER_STATE_FILTER',function (value) {
+  for(let i=0,len=ORDER_STATE.length;i<len;i++){
+    if(value==ORDER_STATE[i]['id']){
+      return ORDER_STATE[i]['name']
+    };
+  };
+  return '';
+});
 //格式化时间戳
 Vue.filter('dateTimeFormat',(value)=>{
     if(!value){
