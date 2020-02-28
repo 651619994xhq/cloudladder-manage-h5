@@ -1,6 +1,7 @@
 <template>
   <div class="product-list">
     <TakeOrderHeader @onSetOnlineEvent="handleSetOnlineEvent" @onGetNewOrderEvent="handleGetNewOrderEvent"></TakeOrderHeader>
+    <el-divider></el-divider>
     <el-form :inline="true" :model="queryTableData" class="demo-form-inline" ref="formRef">
       <el-form-item label="订单号">
         <el-input v-model="queryTableData.orderNo" placeholder="请输入订单号"></el-input>
@@ -119,12 +120,14 @@
       style="padding:20px 0"
     >
     </el-pagination>
+    <TakeOrderCarousel></TakeOrderCarousel>
   </div>
 </template>
 <script>
     import {IsUnevenNum} from 'utils/tool';
     import {ORDER_STATE} from 'utils/constants';
     import TakeOrderHeader from './takeOrderHeader';
+    import TakeOrderCarousel from './takeOrderCarousel';
     import {getOrderList, setOnlineState,assignCase} from '@/common/service/index';
     import {mapActions, mapState} from 'vuex'
 
@@ -155,7 +158,8 @@
             }
         },
         components:{
-            TakeOrderHeader
+            TakeOrderHeader,
+            TakeOrderCarousel
         },
         computed: {
             ...mapState(['appNameList']),
