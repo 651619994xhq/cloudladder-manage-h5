@@ -125,7 +125,7 @@
     import {IsUnevenNum} from 'utils/tool';
     import {ORDER_STATE} from 'utils/constants';
     import TakeOrderHeader from './takeOrderHeader';
-    import {getOrderList, getProductList, setOnlineState} from '@/common/service/index';
+    import {getOrderList, setOnlineState,assignCase} from '@/common/service/index';
     import {mapActions, mapState} from 'vuex'
 
     export default {
@@ -260,12 +260,29 @@
             async handleCurrentChange(value) {
                 await this.onPaginationChange(value, 'handleCurrentChange')
             },
+
             async handleStartTaskEvent() {
+                //TODO 在这里调用 获取流程接口 开始弹出流程框
 
             },
-            //获取新订单
+            /**
+             * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
+             * @returns {Promise<void>}
+             */
             async handleGetNewOrderEvent() {
-
+                let [err,data]=await assignCase();
+                if(err!=null){this.$message({type:'error',message:err||'系统错误'});return ;};
+                this.showTableLoading();
+                let [err1, data1] = await getOrderList({mobileNo: '', orderNo: '', orderState: '', productCode: '',});
+                if (err1 !== null) {
+                    this.$message({type: 'error', message: err || '系统错误'});
+                    return;
+                };
+                this.hideTableLoading();
+                this.tableData = data1.data || [];
+                this.pagination = {currentPage: 1, pageSize: 10, total: data1.total || 10};
+                this.queryTableData = {mobileNo: '',orderNo: '',orderState: '',productCode: '',};
+                this.saveTableData={mobileNo: '',orderNo: '',orderState: '',productCode: '',};
             },
             //设置上下线
             async handleSetOnlineEvent(){

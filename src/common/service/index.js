@@ -20,3 +20,7 @@ export const setOnlineState = (param={})=>{
   let onlineState=param.onlineState?param.onlineState:0;
   return awaitWrap(axios.post(api.SET_ONLINE_STATE,{onlineState}));
 };
+//分配客服
+export const assignCase = (param={})=>{
+  return awaitWrap(axios.post(api.ASSIGN_CASE,{}));
+};
