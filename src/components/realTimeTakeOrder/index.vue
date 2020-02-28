@@ -1,15 +1,6 @@
 <template>
   <div class="product-list">
-    <!--       这是头部-->
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-
-        </div>
-      </el-col>
-      <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-      <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-    </el-row>
+    <TakeOrderHeader @onSetOnlineEvent="handleSetOnlineEvent" @onGetNewOrderEvent="handleGetNewOrderEvent"></TakeOrderHeader>
     <el-form :inline="true" :model="queryTableData" class="demo-form-inline" ref="formRef">
       <el-form-item label="订单号">
         <el-input v-model="queryTableData.orderNo" placeholder="请输入订单号"></el-input>
@@ -112,183 +103,198 @@
             icon="el-icon-view"
             size="mini"
             type="primary"
-            @click="handleStartTaskEvent(scope.$index, scope.row)">开始任务</el-button>
+            @click="handleStartTaskEvent(scope.$index, scope.row)">开始任务
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page=pagination.currentPage
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="pagination.pageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="pagination.total"
-                    style="padding:20px 0"
-            >
-            </el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page=pagination.currentPage
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pagination.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="pagination.total"
+      style="padding:20px 0"
+    >
+    </el-pagination>
   </div>
 </template>
 <script>
     import {IsUnevenNum} from 'utils/tool';
     import {ORDER_STATE} from 'utils/constants';
-    import {getOrderList,getProductList} from '@/common/service/index';
-    import {mapActions,mapState} from 'vuex'
+    import TakeOrderHeader from './takeOrderHeader';
+    import {getOrderList, getProductList, setOnlineState} from '@/common/service/index';
+    import {mapActions, mapState} from 'vuex'
+
     export default {
-        name:'realTimeTakeOrder',
+        name: 'realTimeTakeOrder',
         data() {
             return {
                 ORDER_STATE,
                 tableLoading: false,//table加载
                 tableData: [],
                 tableData2: [],
-                queryTableData:{
-                    mobileNo:'',
-                    orderNo:'',
-                    orderState:'',
-                    productCode:'',
+                queryTableData: {
+                    mobileNo: '',
+                    orderNo: '',
+                    orderState: '',
+                    productCode: '',
                 },
-                productList:[],
-                saveTableData:{
-
+                productList: [],
+                saveTableData: {},
+                dialog: {
+                    dialogVisible: false,//是否展示弹窗
                 },
-                dialog:{
-                    dialogVisible:false,//是否展示弹窗
-                },
-                pagination:{
-                    currentPage:1,
-                    pageSize:10,
-                    total:10
+                pagination: {
+                    currentPage: 1,
+                    pageSize: 10,
+                    total: 10
                 },
             }
         },
-        computed:{
+        components:{
+            TakeOrderHeader
+        },
+        computed: {
             ...mapState(['appNameList']),
         },
-        filters:{
-        },
+        filters: {},
         //加载数据
-        created(){this.initTableData();},
+        created() {
+            this.initTableData();
+        },
         //销毁数据
-        destroyed(){},
+        destroyed() {
+        },
         //自定义方法
         methods: {
             ...mapActions(['GET_APPNAME_LIST']),
             //初始化数据
-            async initTableData(){
+            async initTableData() {
                 this.showTableLoading();
-                let [err,data]=await getOrderList({mobileNo:'',orderNo:'',orderState:'',productCode:'',});
-                if(err !== null){this.$message({type:'error',message:err||'系统错误'});return ;};
+                let [err, data] = await getOrderList({mobileNo: '', orderNo: '', orderState: '', productCode: '',});
+                if (err !== null) {
+                    this.$message({type: 'error', message: err || '系统错误'});
+                    return;
+                }
+                ;
                 this.hideTableLoading();
-                this.tableData=data.data||[];
-                this.pagination={currentPage:1,pageSize:10,total:data.total||10};
+                this.tableData = data.data || [];
+                this.pagination = {currentPage: 1, pageSize: 10, total: data.total || 10};
             },
-            async updateTableData(){
+            async updateTableData() {
             },
             //判断表格行数
             tableRowClassName({row, rowIndex}) {
                 if (IsUnevenNum(rowIndex)) {
                     return 'warning-row';
-                } ;
+                }
+                ;
                 return 'success-row';
             },
             //查询订单
-            async handleQuery(){
-                  this.showTableLoading();
-                  let [err,data]=await getOrderList({...this.queryTableData,pageNum:1,pageSize:10});
-                  if(err !== null){this.$message({type:'error',message:err||'系统错误'});return ;};
-                  this.saveTableData={...this.queryTableData};
-                  this.tableData=data?data:[];
-                  this.pagination={currentPage:1,pageSize:10,total:data.total||10};
-                  this.hideTableLoading();
+            async handleQuery() {
+                this.showTableLoading();
+                let [err, data] = await getOrderList({...this.queryTableData, pageNum: 1, pageSize: 10});
+                if (err !== null) {
+                    this.$message({type: 'error', message: err || '系统错误'});
+                    return;
+                }
+                ;
+                this.saveTableData = {...this.queryTableData};
+                this.tableData = data ? data : [];
+                this.pagination = {currentPage: 1, pageSize: 10, total: data.total || 10};
+                this.hideTableLoading();
             },
             //重置
-            handleReset(){
+            handleReset() {
                 console.log('重置')
-                this.queryTableData={
-                    mobileNo:'',
-                    orderNo:'',
-                    orderState:'',
-                    productCode:'',
+                this.queryTableData = {
+                    mobileNo: '',
+                    orderNo: '',
+                    orderState: '',
+                    productCode: '',
                 };
             },
             //展示加载
-            showTableLoading(){this.tableLoading=true;},
+            showTableLoading() {
+                this.tableLoading = true;
+            },
             //隐藏加载
-            hideTableLoading(){this.tableLoading=false;},
+            hideTableLoading() {
+                this.tableLoading = false;
+            },
 
-            async onPaginationChange(value,type){
+            async onPaginationChange(value, type) {
                 this.showTableLoading();
-                let {pageSize,currentPage:pageNum}=this.pagination;
-                if(type=='handleSizeChange'){
-                    pageSize=value;
-                };
-                if(type=='handleCurrentChange'){
-                    pageNum=value;
-                };
-                let [err,data]=await getOrderList({...this.saveTableData,pageSize,pageNum});
-                if(err!==null){this.hideTableLoading();this.$message({type:'error',message:err||'系统错误'});return ;};
-                this.tableData=data.data||[];
-                this.pagination={
+                let {pageSize, currentPage: pageNum} = this.pagination;
+                if (type == 'handleSizeChange') {
+                    pageSize = value;
+                }
+                ;
+                if (type == 'handleCurrentChange') {
+                    pageNum = value;
+                }
+                ;
+                let [err, data] = await getOrderList({...this.saveTableData, pageSize, pageNum});
+                if (err !== null) {
+                    this.hideTableLoading();
+                    this.$message({type: 'error', message: err || '系统错误'});
+                    return;
+                }
+                ;
+                this.tableData = data.data || [];
+                this.pagination = {
                     pageSize,
                     currentPage: pageNum,
-                    total:data.total||10
+                    total: data.total || 10
                 }
                 this.hideTableLoading();
             },
-            async handleSizeChange(value){
-                await this.onPaginationChange(value,'handleSizeChange')
+            async handleSizeChange(value) {
+                await this.onPaginationChange(value, 'handleSizeChange')
             },
 
-            async handleCurrentChange(value){
-                await this.onPaginationChange(value,'handleCurrentChange')
+            async handleCurrentChange(value) {
+                await this.onPaginationChange(value, 'handleCurrentChange')
             },
-            async handleStartTaskEvent(){
+            async handleStartTaskEvent() {
 
+            },
+            //获取新订单
+            async handleGetNewOrderEvent() {
+
+            },
+            //设置上下线
+            async handleSetOnlineEvent(){
+                let [err,data]=await setOnlineState();
+                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;};
+                this.$message({type:'success',message:'11122'})
             },
             //查询订单需要
             //获取资方名称
-            async $getProductList(){
-                this.productList=[];
-                let [err,data]=await getProductList();
-                if(err !== null){this.$message({type:'error',message:err||'资方名称获取失败'});return ;};
+            async $getProductList() {
+                this.productList = [];
+                let [err, data] = await getProductList();
+                if (err !== null) {
+                    this.$message({type: 'error', message: err || '资方名称获取失败'});
+                    return;
+                }
+                ;
                 console.log(data)
-                this.productList=data||[];
-                this.queryTableData.taskName=this.productList[0]&&this.productList[0].code;
+                this.productList = data || [];
+                this.queryTableData.taskName = this.productList[0] && this.productList[0].code;
             }
         }
     }
 </script>
 <style scoped lang="scss">
-  .product-list{
+  .product-list {
     width: 100%;
     height: 100%;
   }
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 80px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
+
 
 </style>
