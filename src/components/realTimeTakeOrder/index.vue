@@ -11,10 +11,10 @@
       <el-form-item label="订单状态">
         <el-select v-model="queryTableData.orderState" placeholder="请选择">
           <el-option
-            v-for="(item,index) in productList"
+            v-for="(item,index) in ORDER_STATE"
             :key="index"
             :label="item.name"
-            :value="item.code">
+            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -29,7 +29,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="handleQuery('formRef')">查询</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-setting" @click="handleReset">重置</el-button>
@@ -58,7 +58,7 @@
         prop="createTime"
         label="创建时间"
         width="140">
-        <template slot-scope="scope">{{scope.row.realName | noPassByName}}</template>
+        <template slot-scope="scope">{{scope.row.createTime | dateTimeFormat}}</template>
       </el-table-column>
       <el-table-column
         prop="uid"
@@ -89,6 +89,7 @@
         prop="updateTime"
         label="更新时间"
         width="260">
+        <template slot-scope="scope">{{scope.row.updateTime | dateTimeFormat}}</template>
       </el-table-column>
       <el-table-column
         prop="loanState"
@@ -101,7 +102,7 @@
             icon="el-icon-view"
             size="mini"
             type="primary"
-            @click="handleLook(scope.$index, scope.row)">开始任务</el-button>
+            @click="handleStartTaskEvent(scope.$index, scope.row)">开始任务</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -120,12 +121,14 @@
 </template>
 <script>
     import {IsUnevenNum} from 'utils/tool';
-    import {getOrderList,queryTaskOrderList,getProductList} from '@/common/service/index';
+    import {ORDER_STATE} from 'utils/constants';
+    import {getOrderList,getProductList} from '@/common/service/index';
     import {mapActions,mapState} from 'vuex'
     export default {
         name:'realTimeTakeOrder',
         data() {
             return {
+                ORDER_STATE,
                 tableLoading: false,//table加载
                 tableData: [],
                 tableData2: [],
@@ -229,6 +232,9 @@
 
             async handleCurrentChange(value){
                 await this.onPaginationChange(value,'handleCurrentChange')
+            },
+            async handleStartTaskEvent(){
+
             },
             //查询订单需要
             //获取资方名称
