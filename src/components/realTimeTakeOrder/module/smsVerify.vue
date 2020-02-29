@@ -20,6 +20,7 @@
 </template>
 
 <script>
+    import {getSmsVerify} from "@/common/service";
     export default {
         name: "smsVerify"
     }

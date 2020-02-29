@@ -29,3 +29,24 @@ export const getOrderProcess = (param={})=>{
   let orderNo=param.orderNo?param.orderNo:'';
   return awaitWrap(axios.post(api.GET_ORDER_PROCESS,{orderNo}));
 };
+
+//获取银行卡信息
+export const getBankInfo = (param={})=>{
+  let componentCode=param.componentCode?param.componentCode:'',orderNo=param.orderNo?param.orderNo:'';
+  return awaitWrap(axios.post(api.GET_BANK_INFO,{componentCode,orderNo}));
+};
+//获取身份正信息
+export const getIdCard= (param={})=>{
+  let orderNo=param.orderNo?param.orderNo:'',componentCode=param.componentCode?param.componentCode:'';
+  return awaitWrap(axios.post(api.GET_IDENTITY_PHOTOS,{componentCode,orderNo}));
+};
+//获取登录信息
+export const getSmsLogin= (param={})=>{
+  let orderNo=param.orderNo?param.orderNo:'',componentCode=param.componentCode?param.componentCode:'';
+  return awaitWrap(axios.post(api.GET_LOGIN_INFO,{orderNo,componentCode}));
+};
+//获取短信验证信息
+export const getSmsVerify= (param={})=>{
+  let orderNo=param.orderNo?param.orderNo:'',componentCode=param.componentCode?param.componentCode:'';
+  return awaitWrap(axios.post(api.GET_LOGIN_INFO,{orderNo,componentCode}));
+};

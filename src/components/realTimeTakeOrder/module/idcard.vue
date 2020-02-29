@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import {getIdCard} from "@/common/service";
     export default {
         name: "idcard"
     }

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+    import {getSmsLogin} from "@/common/service";
     export default {
         name: "smsLogin"
     }

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+    import {getBankInfo} from "@/common/service";
+
     export default {
         name: "bankcard"
     }

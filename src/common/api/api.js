@@ -7,6 +7,10 @@ export default {
     ASSIGN_CASE:'/console/queuer/assignCase', //分配客服
     GET_ORDER_DETAIL:'console/order/getOrderDetail', //查询订单明细
     SET_ORDER_PROCESS_STATE:'/console/orderProcess/setOrderProcessState', //订单流程 修改状态
-    GET_ORDER_PROCESS:'/console/orderProcess/getOrderProcess',
+    GET_ORDER_PROCESS:'/console/orderProcess/getOrderProcess', //查看节点流程
+    GET_IDENTITY_PHOTOS:'/identity/getIdentityPhotos', //获取身份信息
+    GET_LOGIN_INFO:'/api/getOrderProcess',// 获取登录信息
+    GET_BANK_INFO:'', //获取银行卡绑定信息
+
 
 }
