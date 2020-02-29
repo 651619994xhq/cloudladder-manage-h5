@@ -1,10 +1,13 @@
 <template>
-  <el-dialog :title="dialog.title" :visible.sync="dialog.dialogVisible" :close-on-click-modal="false" width="80%">
+  <el-dialog :visible.sync="isShow" :close-on-click-modal="false" :before-close="handleBeforeCloseEvent" width="80%">
     <div class="row flex-item flex-justify-start">
       <div class="carousel-container">
         <el-carousel arrow="always" :autoplay="false" :loop="false" indicator-position="none" height="500px">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <Bankcard></Bankcard>
+          <el-carousel-item v-for="(item,index) in data" :key="index">
+            <SmsLogin v-if="ComponentCode.SMS_LOGIN==item.componentCode"></SmsLogin>
+            <Bankcard v-if="ComponentCode.BANKCARD==item.componentCode"></Bankcard>
+            <IdCard v-if="ComponentCode.ID_CARD==item.componentCode"></IdCard>
+            <SmsVerify v-if="ComponentCode.sms_verify==item.componentCode"></SmsVerify>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -35,22 +38,41 @@
   </el-dialog>
 </template>
 <script>
-  import SmsLogin from './module/smsLogin'
-  import Bankcard from "./module/bankcard";
+    import SmsLogin from './module/smsLogin'
+    import IdCard from "./module/idcard";
+    import SmsVerify from "./module/smsVerify";
+    import Bankcard from "./module/bankcard";
+    import {ComponentCode} from 'utils/enum'
+
     export default {
         name: "takeOrderCarousel",
+        props: {
+            data: {
+                type: Array,
+                default: []
+            },
+            isShow: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
-                dialog: {
-                    dialogVisible: true,//是否展示弹窗
-                },
-                currentStepText: '测试',
+                ComponentCode,
                 money: ''
             }
         },
-        components:{
+        components: {
             SmsLogin,
-            Bankcard
+            Bankcard,
+            IdCard,
+            SmsVerify
+
+        },
+        methods:{
+            handleBeforeCloseEvent(e){
+                this.$emit('onClose')
+            }
         }
     }
 </script>

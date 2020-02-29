@@ -120,7 +120,7 @@
       style="padding:20px 0"
     >
     </el-pagination>
-    <TakeOrderCarousel></TakeOrderCarousel>
+    <TakeOrderCarousel :is-show="processData.isShow" :data="processData.data" @onClose="processData.isShow=false"></TakeOrderCarousel>
   </div>
 </template>
 <script>
@@ -128,7 +128,7 @@
     import {ORDER_STATE} from 'utils/constants';
     import TakeOrderHeader from './takeOrderHeader';
     import TakeOrderCarousel from './takeOrderCarousel';
-    import {getOrderList, setOnlineState,assignCase} from '@/common/service/index';
+    import {getOrderList, setOnlineState,assignCase,getOrderProcess} from '@/common/service/index';
     import {mapActions, mapState} from 'vuex'
 
     export default {
@@ -155,6 +155,10 @@
                     pageSize: 10,
                     total: 10
                 },
+                processData:{
+                    isShow:false,
+                    data:[]
+                }
             }
         },
         components:{
@@ -264,16 +268,47 @@
             async handleCurrentChange(value) {
                 await this.onPaginationChange(value, 'handleCurrentChange')
             },
-
-            async handleStartTaskEvent() {
+            async handleGetNewOrderEvent() {
                 //TODO 在这里调用 获取流程接口 开始弹出流程框
-
-            },
+                // let [err,data]=await getOrderProcess({orderNo:row.orderNo});
+                let data=[
+                    {
+                        nodeCode:1,    //对应节点
+                        processSeq:'', //节点顺序
+                        processType:'', //流程类型
+                        componentCode:'sms_login', //组件编码
+                        componentValue:'短信登录',//组件值
+                    },
+                    {
+                        nodeCode:1,    //对应节点
+                        processSeq:'', //节点顺序
+                        processType:'', //流程类型
+                        componentCode:'idcard', //组件编码
+                        componentValue:'身份证信息',//组件值
+                    },
+                    {
+                        nodeCode:1,    //对应节点
+                        processSeq:'', //节点顺序
+                        processType:'', //流程类型
+                        componentCode:'bankcard', //组件编码
+                        componentValue:'银行卡验证',//组件值
+                    },
+                    {
+                        nodeCode:1,    //对应节点
+                        processSeq:'', //节点顺序
+                        processType:'', //流程类型
+                        componentCode:'sms_verify', //组件编码
+                        componentValue:'短信验证',//组件值
+                    }
+                ]
+                this.processData.isShow=true;
+                this.processData.data=data||[];
+s            },
             /**
              * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
              * @returns {Promise<void>}
              */
-            async handleGetNewOrderEvent() {
+            async handleStartTaskEvent() {
                 let [err,data]=await assignCase();
                 if(err!=null){this.$message({type:'error',message:err||'系统错误'});return ;};
                 this.showTableLoading();

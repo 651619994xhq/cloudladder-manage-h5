@@ -24,3 +24,8 @@ export const setOnlineState = (param={})=>{
 export const assignCase = (param={})=>{
   return awaitWrap(axios.post(api.ASSIGN_CASE,{}));
 };
+//查询节点流程
+export const getOrderProcess = (param={})=>{
+  let orderNo=param.orderNo?param.orderNo:'';
+  return awaitWrap(axios.post(api.GET_ORDER_PROCESS,{orderNo}));
+};

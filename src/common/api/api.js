@@ -7,5 +7,6 @@ export default {
     ASSIGN_CASE:'/console/queuer/assignCase', //分配客服
     GET_ORDER_DETAIL:'console/order/getOrderDetail', //查询订单明细
     SET_ORDER_PROCESS_STATE:'/console/orderProcess/setOrderProcessState', //订单流程 修改状态
+    GET_ORDER_PROCESS:'/console/orderProcess/getOrderProcess',
 
 }
