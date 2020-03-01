@@ -26,18 +26,18 @@
       </div>
     </el-col>
     <el-col :span="9">
-      <div class="grid-content bg-purple col flex-item flex-justify">
+      <div class="grid-content bg-purple col flex-item flex-justify" :style="{paddingLeft:'20px'}">
         <div class="row flex-item flex-justify-start" :style="{width:'100%'}">
           <div>状态：</div>
           <div>离线</div>
         </div>
-        <div class="row flex-item flex-justify-start" :style="{width:'100%'}">
+        <div class="row flex-item flex-justify-start" :style="{width:'100%',marginTop:'5px'}">
           <el-button
             type="primary"
             @click="handleSetOnlineEvent"
           >上线
           </el-button>
-          <div>最近在线：2020-2-18 20：20：28</div>
+          <div :style="{marginLeft:'10px'}">最近在线：2020-2-18 20：20：28</div>
         </div>
       </div>
     </el-col>
