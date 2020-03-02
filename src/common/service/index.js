@@ -50,3 +50,10 @@ export const getSmsVerify= (param={})=>{
   let orderNo=param.orderNo?param.orderNo:'',componentCode=param.componentCode?param.componentCode:'';
   return awaitWrap(axios.post(api.GET_LOGIN_INFO,{orderNo,componentCode}));
 };
+//客服-获取今日、累积接单数量
+export const getOrderNum = (param={})=>{
+    return awaitWrap(axios.post(api.GET_ORDER_NUM,{}));
+}
+export const getWaitNum = (param={})=>{
+    return awaitWrap(axios.post(api.GET_WAIT_QUEUER,{}));
+}

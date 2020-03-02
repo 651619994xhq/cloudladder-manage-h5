@@ -11,6 +11,8 @@ export default {
     GET_IDENTITY_PHOTOS:'/identity/getIdentityPhotos', //获取身份信息
     GET_LOGIN_INFO:'/api/getOrderProcess',// 获取登录信息
     GET_BANK_INFO:'', //获取银行卡绑定信息
+    GET_WAIT_QUEUER:'/console/queuer/getWaitQueuer', //客服-实时排队中订单
+    GET_ORDER_NUM:'/console/queuer/getOrderNum', //
 
 
 }

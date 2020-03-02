@@ -5,11 +5,11 @@
       <div class="grid-content bg-purple row flex-item flex-justify-between">
         <div class="row flex-item flex-justify" :style="{marginLeft:'40px'}">
           <div>今日接单：</div>
-          <div>2</div>
+          <div>{{dayCount}}</div>
         </div>
         <div class="row flex-item flex-justify">
           <div>累计接单：</div>
-          <div>2</div>
+          <div>{{totalCount}}</div>
         </div>
         <el-button
           type="primary"
@@ -22,7 +22,7 @@
     <el-col :span="5">
       <div class="grid-content bg-purple row flex-justify flex-item">
         <div>实时排队中订单：</div>
-        <div>438</div>
+        <div>{{waitNum}}</div>
       </div>
     </el-col>
     <el-col :span="9">
@@ -45,17 +45,41 @@
 </template>
 
 <script>
+  import {getOrderNum,getWaitNum} from '@/common/service/index';
     export default {
         name: "takeOrderHeader",
         props:{
 
         },
-        created() {
+        data(){
+          return {
+            dayCount:0,
+            totalCount:0,
+            waitNum:0
+          }
+        },
+        async created() {
+          await this.init();
         },
         destroyed() {
 
         },
         methods:{
+            async init(){
+              await this.$getOrderNum();
+              await this.$getWaitNum();
+            },
+            async $getOrderNum(){
+              let [err,data]=await getOrderNum();
+              if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;};
+              this.dayCount=data.dayCount || '0';
+              this.totalCount=data.totalCount || '0';
+            },
+            async $getWaitNum(){
+              let [err,data]=await getWaitNum();
+              if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;};
+              this.waitNum=data.waitNum||'0';
+            },
             handleSetOnlineEvent(){
                 this.$emit('onSetOnlineEvent')
             },
