@@ -20,14 +20,14 @@ let staticRoutes = [
             title: '403'
         },
     },
-    {
-      path: '/test',
-      name: 'test',
-      component: lazyLoading('realTimeTakeOrder'),
-      meta: {
-        title: '实时接单'
-      },
-    },
+    // {
+    //   path: '/test',
+    //   name: 'test',
+    //   component: lazyLoading('realTimeTakeOrder'),
+    //   meta: {
+    //     title: '实时接单'
+    //   },
+    // },
     {
         path: '*',
         name: '405',
