@@ -11,14 +11,14 @@ export const createRoutesWithRes = (res)=>{
 export const createMenuListWithRes = (res)=>{
     let path=res.url;
     if(path.indexOf('real-time-take-order')>-1){
-        return {index:'/home/real-time-take-order',title:'实时下单',icon:''}
+        return {index:'/home/real-time-take-order',title:'实时接单',icon:'iconfile-text'}
     }
     return {index:'/404',title:res.name};
 };
 
 //获取主标题下的图标
 export const getHasSubMenuIcon = (res)=>{
-    if(res.name=='订单管理'){
+    if(res.name=='实时接单'){
         return 'iconfile-text'
     }
 }

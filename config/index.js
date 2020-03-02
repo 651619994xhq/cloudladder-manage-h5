@@ -13,7 +13,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       // '/xhq/console/login/getUserInfo':{
-      //   target: 'https://fat01-java-loan.cbankhome.com',  //目标接口域名  SSO 登录权限的  不要动
+      //   target: 'http://fat01-common-cloudladder-service.zykj.com',  //目标接口域名  SSO 登录权限的  不要动
       //   changeOrigin: true,  //是否跨域
       //   secure: false,  // 如果是https接口，需要配置这个参数为true
       //   pathRewrite: {
