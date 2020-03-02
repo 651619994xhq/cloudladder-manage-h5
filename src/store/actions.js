@@ -1,5 +1,4 @@
-import {getUserInfo,logout,getAppNames} from '@/common/service/index';
-import awaitWrap from 'utils/awaitWrap';
+import {getUserInfo,logout} from '@/common/service/index';
 import Vue from 'vue';
 export default {
     //实现登录操作 获取用户信息 初始化菜单 token menuList
@@ -24,9 +23,9 @@ export default {
     },
     //查询app列表信息
     async GET_APPNAME_LIST(store){
-        let [err,data]=await getAppNames({});
-        if(err!==null){Vue.prototype.$message({type:'error',message:'获取appName列表失败'});return ;}
-        //调用子模块的信息
-        store.commit('SET_APPNAME_LIST',data||[]);
+        // let [err,data]=await getAppNames({});
+        // if(err!==null){Vue.prototype.$message({type:'error',message:'获取appName列表失败'});return ;}
+        // //调用子模块的信息
+        // store.commit('SET_APPNAME_LIST',data||[]);
     }
 }

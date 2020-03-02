@@ -1,6 +1,6 @@
 export default {
-    LOGOUT:'/manage/scope/login/logout', //logout 用户退出登录
-    GET_USER_INFO:'/manage/scope/login/getUserInfo', //获取用户权限菜单
+    LOGOUT:'/console/login/logout', //logout 用户退出登录
+    GET_USER_INFO:'/console/login/getUserInfo', //获取用户权限菜单
     GET_ORDER_LIST:'/console/order/getOrderList', //获取订单列表
     SET_ONLINE_STATE:'/console/staff/setOnlineState', //客服设置上下线
     SET_ORDER_STATE:'/console/order/setOrderState', //更改订单状态

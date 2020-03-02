@@ -12,11 +12,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      // '/xhq/console/login/getUserInfo':{
+      //   target: 'https://fat01-java-loan.cbankhome.com',  //目标接口域名  SSO 登录权限的  不要动
+      //   changeOrigin: true,  //是否跨域
+      //   secure: false,  // 如果是https接口，需要配置这个参数为true
+      //   pathRewrite: {
+      //     '^/xhq/console/login/getUserInfo': '/console/login/getUserInfo'   //重写接口
+      //   }
+      // },
       '/xhq': {
-        target: 'http://fat01-common-task-manager-service.zykj.com',  //目标接口域名
-        // target: 'https://fat01-java-loan.cbankhome.com',  //目标接口域名
-        // target:'http://10.10.25.10:8082',//孟祥荣
-        // target:'http://10.10.25.88:8082',//殷鹏
+        // target: 'https://fat01-h5windone.cbankhome.com',  //目标接口域名
+        target:'http://10.10.25.7:8086',  //张通
+        // target:'http://10.10.25.10:9010',  //孟祥荣
         changeOrigin: true,  //是否跨域
         secure: false,  // 如果是https接口，需要配置这个参数为true
         pathRewrite: {
