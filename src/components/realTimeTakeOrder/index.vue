@@ -20,7 +20,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="产品名称">
-        <el-select v-model="queryTableData.productCode" placeholder="请选择">
+        <el-select v-model="queryTableData.productCode" :clearable="true" placeholder="请选择">
           <el-option
             v-for="(item,index) in productList"
             :key="index"
@@ -212,7 +212,7 @@
                 }
                 ;
                 this.saveTableData = {...this.queryTableData};
-                this.tableData = data ? data : [];
+                this.tableData = data.data||[];
                 this.pagination = {currentPage: 1, pageSize: 10, total: data.total || 10};
                 this.hideTableLoading();
             },
@@ -268,7 +268,7 @@
             async handleCurrentChange(value) {
                 await this.onPaginationChange(value, 'handleCurrentChange')
             },
-            async handleStartTaskEvent() {
+            async handleStartTaskEvent(index,row) {
                 //TODO 在这里调用 获取流程接口 开始弹出流程框
                 let [err,data]=await getOrderProcess({orderNo:row.orderNo});
                 // let data=[

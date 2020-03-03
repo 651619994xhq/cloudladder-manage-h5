@@ -52,7 +52,7 @@ class Axios {
                             loginUrl&&(window.location=loginUrl);
                             return;
                         }
-                        reject&&reject(e||'系统错误');
+                        reject&&reject(response.data.msg||'系统错误');
                     }
                     return;
                 })

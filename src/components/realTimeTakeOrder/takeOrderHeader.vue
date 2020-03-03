@@ -37,7 +37,7 @@
             @click="handleSetOnlineEvent"
           >{{onlineState==1?'下线':'上线'}}
           </el-button>
-          <div :style="{marginLeft:'10px'}">最近在线：{{onlineTime}}</div>
+          <div :style="{marginLeft:'10px'}">最近在线：{{onlineTime | dateTimeFormat}}</div>
         </div>
       </div>
     </el-col>
@@ -57,7 +57,7 @@
             totalCount:0,
             waitNum:0,
             onlineState: 0,     //0 离线状态  1 在线状态
-            onlineTime:'2020-2-18 20：20：28'
+            onlineTime:''
           }
         },
         async created() {
@@ -87,6 +87,7 @@
               let [err,data]=await getStaffInfo();
               if(err!==null){this.$message({type:'error',message:err||'系统错误'});return };
               this.onlineState=data.onlineState;
+              this.onlineTime=data.updateTime;
 
             },
             async handleSetOnlineEvent(){
