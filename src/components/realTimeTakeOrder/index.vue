@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <TakeOrderHeader @onGetNewOrderEvent="handleGetNewOrderEvent"></TakeOrderHeader>
+    <TakeOrderHeader @onGetNewOrderEvent="handleGetNewOrderEvent" ref="taskHeader"></TakeOrderHeader>
     <el-divider></el-divider>
     <el-form :inline="true" :model="queryTableData" class="demo-form-inline" ref="formRef">
       <el-form-item label="订单号">
@@ -300,7 +300,7 @@
             async handleGetNewOrderEvent() {
                 this.showFullLoading();
                 let [err,data]=await assignCase();
-                if(err!=null){this.hideFullLoading();this.$message({type:'error',message:err||'系统错误'});return ;};
+                if(err!==null){this.hideFullLoading();this.$message({type:'error',message:err||'系统错误'});return ;};
                 let [err1, data1] = await getOrderList({mobileNo: '', orderNo: '', orderState: '', productCode: '',});
                 if (err1 !== null) {
                     this.hideFullLoading();
@@ -312,7 +312,11 @@
                 this.pagination = {currentPage: 1, pageSize: 10, total: data1.total || 10};
                 this.queryTableData = {mobileNo: '',orderNo: '',orderState: '',productCode: '',};
                 this.saveTableData={mobileNo: '',orderNo: '',orderState: '',productCode: '',};
-              this.$message({type:'success',message:'操作成功'})
+                this.$message({type:'success',message:'操作成功'});
+
+                this.$refs['taskHeader'].$getWaitNum();
+
+
             },
         }
     }
