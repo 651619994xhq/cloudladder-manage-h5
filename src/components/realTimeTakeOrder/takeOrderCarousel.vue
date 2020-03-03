@@ -27,9 +27,10 @@
           <el-input type="number" v-model="quota" placeholder="请输入授信金额" :style="{width:'120px'}"></el-input>
           <el-button type="primary" @click="handleSetOrderStateEvent(3)">标记为成功</el-button>
           <el-button type="primary" @click="handleSetOrderStateEvent(4)">标记为失败</el-button>
-
         </div>
-
+        <div class="row flex-item flex-justify" :style="{marginTop:'40px'}">
+          <el-button size="large" type="danger" @click="handleRefresh">刷新当前模块</el-button>
+        </div>
       </div>
     </div>
 
@@ -63,7 +64,8 @@
         data() {
             return {
                 ComponentCode,
-                quota: ''
+                quota: '',
+                currentIndex:0
             }
         },
         components: {
@@ -89,6 +91,7 @@
                })
            },
             handleChangeEvent(index){
+              this.currentIndex=index;
                this.$nextTick(()=>{
                  if(this.data[index]){
                    if(ComponentCode.isThisType(this.data[index].componentCode)){
@@ -100,6 +103,15 @@
 
                });
             },
+          handleRefresh(){
+            if(this.data[this.currentIndex]){
+              if(ComponentCode.isThisType(this.data[this.currentIndex].componentCode)){
+                this.$nextTick(()=>{
+                  this.$refs[this.data[this.currentIndex].componentCode][0].init();
+                })
+              }
+            };
+          },
             handleBeforeCloseEvent(e){
                 this.$emit('onClose')
             },
