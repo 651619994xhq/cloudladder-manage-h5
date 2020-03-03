@@ -66,3 +66,8 @@ export const getStaffInfo = (param={})=>{
 export const getProductList = (param={})=>{
     return awaitWrap(axios.post(api.GET_PRODUCT_LIST,{}));
 };
+//设置订单状态
+export const setOrderState = (param={})=>{
+    let auditMsg=param.auditMsg?param.auditMsg:'',orderNo=param.orderNo?param.orderNo:'',orderState=(param.orderState||(param.orderState==0))?param.orderState:'',quota=param.quota?param.quota:'',withdrawAmount=param.withdrawAmount?param.withdrawAmount:'';
+    return awaitWrap(axios.post(api.SET_ORDER_STATE,{auditMsg,orderNo,orderState,quota,withdrawAmount}));
+};
