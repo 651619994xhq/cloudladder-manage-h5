@@ -61,15 +61,16 @@
           }
         },
         async created() {
-          await this.init();
+          this.init();
         },
         destroyed() {
 
         },
         methods:{
-            async init(){
-              await this.$getOrderNum();
-              await this.$getWaitNum();
+             init(){
+               this.$getOrderNum();
+               this.$getWaitNum();
+               this.$getStaffInfo();
             },
             async $getOrderNum(){
               let [err,data]=await getOrderNum();
@@ -85,6 +86,7 @@
             async $getStaffInfo(){
               let [err,data]=await getStaffInfo();
               if(err!==null){this.$message({type:'error',message:err||'系统错误'});return };
+              this.onlineState=data.onlineState;
 
             },
             async handleSetOnlineEvent(){

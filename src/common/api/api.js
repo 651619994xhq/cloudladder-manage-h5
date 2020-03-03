@@ -14,6 +14,7 @@ export default {
     GET_WAIT_QUEUER:'/console/queuer/getWaitQueuer', //客服-实时排队中订单
     GET_ORDER_NUM:'/console/queuer/getOrderNum', //
     GET_STAFF_INFO:'/console/staff/getStaffInfo', //获取客服信息
+    GET_PRODUCT_LIST:'/console/product/getProductList', //获取产品列表
 
 
 }

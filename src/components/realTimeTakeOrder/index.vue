@@ -128,7 +128,7 @@
     import {ORDER_STATE} from 'utils/constants';
     import TakeOrderHeader from './takeOrderHeader';
     import TakeOrderCarousel from './takeOrderCarousel';
-    import {getOrderList, setOnlineState,assignCase,getOrderProcess} from '@/common/service/index';
+    import {getOrderList,assignCase,getOrderProcess} from '@/common/service/index';
     import {mapActions, mapState} from 'vuex'
 
     export default {
@@ -145,7 +145,6 @@
                     orderState: '',
                     productCode: '',
                 },
-                productList: [],
                 saveTableData: {},
                 dialog: {
                     dialogVisible: false,//是否展示弹窗
@@ -166,7 +165,7 @@
             TakeOrderCarousel
         },
         computed: {
-            ...mapState(['appNameList']),
+            ...mapState(['productList']),
         },
         filters: {},
         //加载数据
@@ -178,9 +177,10 @@
         },
         //自定义方法
         methods: {
-            ...mapActions(['GET_APPNAME_LIST']),
+            ...mapActions(['GET_PRODUCT_LIST']),
             //初始化数据
             async initTableData() {
+                 this.GET_PRODUCT_LIST();
                 this.showTableLoading();
                 let [err, data] = await getOrderList({mobileNo: '', orderNo: '', orderState: '', productCode: '',});
                 if (err !== null) {
@@ -323,20 +323,6 @@ s            },
                 this.queryTableData = {mobileNo: '',orderNo: '',orderState: '',productCode: '',};
                 this.saveTableData={mobileNo: '',orderNo: '',orderState: '',productCode: '',};
             },
-            //查询订单需要
-            //获取资方名称
-            async $getProductList() {
-                this.productList = [];
-                let [err, data] = await getProductList();
-                if (err !== null) {
-                    this.$message({type: 'error', message: err || '资方名称获取失败'});
-                    return;
-                }
-                ;
-                console.log(data)
-                this.productList = data || [];
-                this.queryTableData.taskName = this.productList[0] && this.productList[0].code;
-            }
         }
     }
 </script>

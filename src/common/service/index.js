@@ -62,3 +62,7 @@ export const getWaitNum = (param={})=>{
 export const getStaffInfo = (param={})=>{
     return awaitWrap(axios.post(api.GET_STAFF_INFO,{}));
 };
+//获取产品列表
+export const getProductList = (param={})=>{
+    return awaitWrap(axios.post(api.GET_PRODUCT_LIST,{}));
+};

@@ -17,7 +17,8 @@ export default {
         state.menuList=[];
         Local.removeMenuList();
     },
-    SET_APPNAME_LIST(state,appNameList){
-        state.appNameList = appNameList;
+    SET_PRODUCT_LIST(state,value){
+        console.log('xhq=========>',value);
+        state.productList = value||[];
     }
 }

@@ -2,5 +2,6 @@
 export default {
     routes:[], //存储路由信息
     menuList:[], //存储菜单信息
-    appNameList:[], //获取所有的appName
+    productList:[], //存储所有的产品列表
+
 }
