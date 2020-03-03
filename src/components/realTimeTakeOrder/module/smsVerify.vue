@@ -22,7 +22,29 @@
 <script>
     import {getSmsVerify} from "@/common/service";
     export default {
-        name: "smsVerify"
+        name: "smsVerify",
+        props:{
+            orderNo:{
+                type:String,
+                default:''
+            }
+        },
+        data(){
+            return {
+                mobile:'',
+                code:'',
+            }
+        },
+        created() {
+            this.$getSmsVerify();
+        },
+        methods:{
+            async $getSmsVerify(){
+                let [err,data]=await getSmsVerify({orderNo});
+
+            }
+
+        }
     }
 </script>
 

@@ -23,6 +23,12 @@
     import {getSmsLogin} from "@/common/service";
     export default {
         name: "smsLogin",
+        props:{
+          orderNo:{
+              type:String,
+              default:''
+          }
+        },
         data(){
           return {
             mobile:'',
@@ -30,6 +36,7 @@
           }
         },
         created() {
+            this.$getSmsLogin();
         },
         methods:{
           async $getSmsLogin(){

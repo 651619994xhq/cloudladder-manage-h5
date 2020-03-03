@@ -36,7 +36,29 @@
     import {getBankInfo} from "@/common/service";
 
     export default {
-        name: "bankcard"
+        name: "bankcard",
+        props:{
+            orderNo:{
+                type:String,
+                default:''
+            }
+        },
+        data(){
+            return {
+                mobile:'',
+                code:'',
+            }
+        },
+        created() {
+            this.$getBankInfo();
+        },
+        methods:{
+            async $getBankInfo(){
+                let [err,data]=await getBankInfo({orderNo:this.orderNo});
+
+            }
+
+        }
     }
 </script>
 

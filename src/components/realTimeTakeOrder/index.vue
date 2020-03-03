@@ -119,7 +119,7 @@
       style="padding:20px 0"
     >
     </el-pagination>
-    <TakeOrderCarousel :is-show="processData.isShow" :data="processData.data" @onClose="processData.isShow=false"></TakeOrderCarousel>
+    <TakeOrderCarousel :is-show="processData.isShow" :order-no="processData.orderNo" :data="processData.data" @onClose="processData.isShow=false"></TakeOrderCarousel>
   </div>
 </template>
 <script>
@@ -155,6 +155,7 @@
                 },
                 processData:{
                     isShow:false,
+                    orderNo:'',
                     data:[]
                 }
             }
@@ -287,6 +288,7 @@
                 this.showFullLoading();
                 let [err,data]=await getOrderProcess({orderNo:row.orderNo});
                 if(err!==null){this.hideFullLoading();this.$message({type:'error',message:err||'系统错误'});return ;}
+                this.processData.orderNo=row.orderNo;
                 this.processData.isShow=true;
                 this.processData.data=data||[];
                 this.hideFullLoading();

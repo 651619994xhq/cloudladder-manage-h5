@@ -11,7 +11,29 @@
 <script>
     import {getIdCard} from "@/common/service";
     export default {
-        name: "idcard"
+        name: "idcard",
+        props:{
+            orderNo:{
+                type:String,
+                default:''
+            }
+        },
+        data(){
+            return {
+                mobile:'',
+                code:'',
+            }
+        },
+        created() {
+            this.$getIdCard();
+        },
+        methods:{
+            async $getIdCard(){
+                let [err,data]=await getIdCard({orderNo});
+
+            }
+
+        }
     }
 </script>
 

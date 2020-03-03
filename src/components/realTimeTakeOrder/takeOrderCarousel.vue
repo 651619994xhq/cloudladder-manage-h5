@@ -4,10 +4,10 @@
       <div class="carousel-container">
         <el-carousel arrow="always" :autoplay="false" :loop="false" indicator-position="none" height="500px">
           <el-carousel-item v-for="(item,index) in data" :key="index">
-            <SmsLogin v-if="ComponentCode.SMS_LOGIN==item.componentCode"></SmsLogin>
-            <Bankcard v-if="ComponentCode.BANKCARD==item.componentCode"></Bankcard>
-            <IdCard v-if="ComponentCode.ID_CARD==item.componentCode"></IdCard>
-            <SmsVerify v-if="ComponentCode.sms_verify==item.componentCode"></SmsVerify>
+            <SmsLogin v-if="ComponentCode.SMS_LOGIN==item.componentCode" :order-no="orderNo"></SmsLogin>
+            <Bankcard v-if="ComponentCode.BANKCARD==item.componentCode" :order-no="orderNo"></Bankcard>
+            <IdCard v-if="ComponentCode.ID_CARD==item.componentCode" :order-no="orderNo"></IdCard>
+            <SmsVerify v-if="ComponentCode.sms_verify==item.componentCode" :order-no="orderNo"></SmsVerify>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -54,6 +54,10 @@
             isShow: {
                 type: Boolean,
                 default: false
+            },
+            orderNo:{
+                type:String,
+                default:'',
             }
         },
         data() {
