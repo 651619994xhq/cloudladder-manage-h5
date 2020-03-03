@@ -15,9 +15,8 @@
         <div class="row flex-item flex-justify">全局操作</div>
         <el-divider></el-divider>
         <div class="row flex-item flex-justify">
-          <el-button type="primary">失效重新登录</el-button>
-          <el-button type="primary">结束推荐</el-button>
-          <el-button type="primary">标记提交完成</el-button>
+          <el-button type="primary" @click="handleSetOrderStateEvent(6)">结束推荐</el-button>
+          <el-button type="primary" @click="handleSetOrderStateEvent(2)">标记提交完成</el-button>
         </div>
         <el-divider></el-divider>
         <div class="row flex-item flex-justify">
@@ -25,9 +24,9 @@
           <div>完成代客下单后请按真实情况进行录入</div>
         </div>
         <div class="row flex-item flex-justify" :style="{marginTop:'20px'}">
-          <el-input v-model="money" placeholder="请输入授信金额" :style="{width:'120px'}"></el-input>
-          <el-button type="primary">标记为成功</el-button>
-          <el-button type="primary">标记为失败</el-button>
+          <el-input type="number" v-model="quota" placeholder="请输入授信金额" :style="{width:'120px'}"></el-input>
+          <el-button type="primary" @click="handleSetOrderStateEvent(3)">标记为成功</el-button>
+          <el-button type="primary" @click="handleSetOrderStateEvent(4)">标记为失败</el-button>
 
         </div>
 
@@ -43,6 +42,7 @@
     import SmsVerify from "./module/smsVerify";
     import Bankcard from "./module/bankcard";
     import {ComponentCode} from 'utils/enum'
+    import {setOrderState} from "@/common/service";
 
     export default {
         name: "takeOrderCarousel",
@@ -63,7 +63,7 @@
         data() {
             return {
                 ComponentCode,
-                money: ''
+                quota: ''
             }
         },
         components: {
@@ -76,6 +76,28 @@
         methods:{
             handleBeforeCloseEvent(e){
                 this.$emit('onClose')
+            },
+            async handleSetOrderStateEvent(state){
+                if(state==3){
+                    if(!this.quota){
+                       this.$message({type:'error',message:'请填授信额度'})
+                        return ;
+                    };
+                    let [err,data]=await setOrderState({orderState:state,quota:this.quota});
+                    if(err!==null){
+                        this.$message({type:'error',message:err||'系统错误'});
+                        return ;
+                    }
+                    this.$message({type:'success',message:'操作成功'});
+                    return ;
+                };
+
+                let [err,data]=await setOrderState({orderState:state});
+                if(err!==null){
+                    this.$message({type:'error',message:err||'系统错误'});
+                    return ;
+                };
+                this.$message({type:'success',message:'操作成功'})
             }
         }
     }
