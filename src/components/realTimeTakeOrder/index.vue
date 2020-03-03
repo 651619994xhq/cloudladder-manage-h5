@@ -102,7 +102,6 @@
         <template slot-scope="scope">
           <el-button
             icon="el-icon-view"
-            size="mini"
             type="primary"
             @click="handleStartTaskEvent(scope.$index, scope.row)">开始任务
           </el-button>
@@ -234,6 +233,17 @@
             hideTableLoading() {
                 this.tableLoading = false;
             },
+            showFullLoading() {
+              this.fullLoading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
+            },
+            hideFullLoading() {
+              this.fullLoading && this.fullLoading.close();
+            },
 
             async onPaginationChange(value, type) {
                 this.showTableLoading();
@@ -270,10 +280,16 @@
             },
             async handleStartTaskEvent(index,row) {
                 //TODO 在这里调用 获取流程接口 开始弹出流程框
+                if(!row.orderNo){
+                  this.$message({type:'error',message:'订单号为空'})
+                  return ;
+                };
+                this.showFullLoading();
                 let [err,data]=await getOrderProcess({orderNo:row.orderNo});
-                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;}
+                if(err!==null){this.hideFullLoading();this.$message({type:'error',message:err||'系统错误'});return ;}
                 this.processData.isShow=true;
                 this.processData.data=data||[];
+                this.hideFullLoading();
 s            },
             /**
              * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
