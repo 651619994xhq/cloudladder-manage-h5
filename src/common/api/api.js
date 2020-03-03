@@ -13,6 +13,7 @@ export default {
     GET_BANK_INFO:'', //获取银行卡绑定信息
     GET_WAIT_QUEUER:'/console/queuer/getWaitQueuer', //客服-实时排队中订单
     GET_ORDER_NUM:'/console/queuer/getOrderNum', //
+    GET_STAFF_INFO:'/console/staff/getStaffInfo', //获取客服信息
 
 
 }

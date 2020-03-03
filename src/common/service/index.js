@@ -54,6 +54,11 @@ export const getSmsVerify= (param={})=>{
 export const getOrderNum = (param={})=>{
     return awaitWrap(axios.post(api.GET_ORDER_NUM,{}));
 }
+//获取等待的人数
 export const getWaitNum = (param={})=>{
     return awaitWrap(axios.post(api.GET_WAIT_QUEUER,{}));
-}
+};
+//获取客服信息
+export const getStaffInfo = (param={})=>{
+    return awaitWrap(axios.post(api.GET_STAFF_INFO,{}));
+};

@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <TakeOrderHeader @onSetOnlineEvent="handleSetOnlineEvent" @onGetNewOrderEvent="handleGetNewOrderEvent"></TakeOrderHeader>
+    <TakeOrderHeader @onGetNewOrderEvent="handleGetNewOrderEvent"></TakeOrderHeader>
     <el-divider></el-divider>
     <el-form :inline="true" :model="queryTableData" class="demo-form-inline" ref="formRef">
       <el-form-item label="订单号">
@@ -268,39 +268,39 @@
             async handleCurrentChange(value) {
                 await this.onPaginationChange(value, 'handleCurrentChange')
             },
-            async handleGetNewOrderEvent() {
+            async handleStartTaskEvent() {
                 //TODO 在这里调用 获取流程接口 开始弹出流程框
-                // let [err,data]=await getOrderProcess({orderNo:row.orderNo});
-                let data=[
-                    {
-                        nodeCode:1,    //对应节点
-                        processSeq:'', //节点顺序
-                        processType:'', //流程类型
-                        componentCode:'sms_login', //组件编码
-                        componentValue:'短信登录',//组件值
-                    },
-                    {
-                        nodeCode:1,    //对应节点
-                        processSeq:'', //节点顺序
-                        processType:'', //流程类型
-                        componentCode:'idcard', //组件编码
-                        componentValue:'身份证信息',//组件值
-                    },
-                    {
-                        nodeCode:1,    //对应节点
-                        processSeq:'', //节点顺序
-                        processType:'', //流程类型
-                        componentCode:'bankcard', //组件编码
-                        componentValue:'银行卡验证',//组件值
-                    },
-                    {
-                        nodeCode:1,    //对应节点
-                        processSeq:'', //节点顺序
-                        processType:'', //流程类型
-                        componentCode:'sms_verify', //组件编码
-                        componentValue:'短信验证',//组件值
-                    }
-                ]
+                let [err,data]=await getOrderProcess({orderNo:row.orderNo});
+                // let data=[
+                //     {
+                //         nodeCode:1,    //对应节点
+                //         processSeq:'', //节点顺序
+                //         processType:'', //流程类型
+                //         componentCode:'sms_login', //组件编码
+                //         componentValue:'短信登录',//组件值
+                //     },
+                //     {
+                //         nodeCode:1,    //对应节点
+                //         processSeq:'', //节点顺序
+                //         processType:'', //流程类型
+                //         componentCode:'idcard', //组件编码
+                //         componentValue:'身份证信息',//组件值
+                //     },
+                //     {
+                //         nodeCode:1,    //对应节点
+                //         processSeq:'', //节点顺序
+                //         processType:'', //流程类型
+                //         componentCode:'bankcard', //组件编码
+                //         componentValue:'银行卡验证',//组件值
+                //     },
+                //     {
+                //         nodeCode:1,    //对应节点
+                //         processSeq:'', //节点顺序
+                //         processType:'', //流程类型
+                //         componentCode:'sms_verify', //组件编码
+                //         componentValue:'短信验证',//组件值
+                //     }
+                // ]
                 this.processData.isShow=true;
                 this.processData.data=data||[];
 s            },
@@ -308,7 +308,7 @@ s            },
              * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
              * @returns {Promise<void>}
              */
-            async handleStartTaskEvent() {
+            async handleGetNewOrderEvent() {
                 let [err,data]=await assignCase();
                 if(err!=null){this.$message({type:'error',message:err||'系统错误'});return ;};
                 this.showTableLoading();
@@ -322,12 +322,6 @@ s            },
                 this.pagination = {currentPage: 1, pageSize: 10, total: data1.total || 10};
                 this.queryTableData = {mobileNo: '',orderNo: '',orderState: '',productCode: '',};
                 this.saveTableData={mobileNo: '',orderNo: '',orderState: '',productCode: '',};
-            },
-            //设置上下线
-            async handleSetOnlineEvent(){
-                let [err,data]=await setOnlineState();
-                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;};
-                this.$message({type:'success',message:'11122'})
             },
             //查询订单需要
             //获取资方名称

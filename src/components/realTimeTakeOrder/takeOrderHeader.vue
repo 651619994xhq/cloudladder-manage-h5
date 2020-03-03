@@ -29,15 +29,15 @@
       <div class="grid-content bg-purple col flex-item flex-justify" :style="{paddingLeft:'20px'}">
         <div class="row flex-item flex-justify-start" :style="{width:'100%'}">
           <div>状态：</div>
-          <div>离线</div>
+          <div>{{onlineState==1?'在线':'离线'}}</div>
         </div>
         <div class="row flex-item flex-justify-start" :style="{width:'100%',marginTop:'5px'}">
           <el-button
             type="primary"
             @click="handleSetOnlineEvent"
-          >上线
+          >{{onlineState==1?'下线':'上线'}}
           </el-button>
-          <div :style="{marginLeft:'10px'}">最近在线：2020-2-18 20：20：28</div>
+          <div :style="{marginLeft:'10px'}">最近在线：{{onlineTime}}</div>
         </div>
       </div>
     </el-col>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import {getOrderNum,getWaitNum} from '@/common/service/index';
+  import {getOrderNum,getWaitNum,getStaffInfo,setOnlineState} from '@/common/service/index';
     export default {
         name: "takeOrderHeader",
         props:{
@@ -55,7 +55,9 @@
           return {
             dayCount:0,
             totalCount:0,
-            waitNum:0
+            waitNum:0,
+            onlineState: 0,     //0 离线状态  1 在线状态
+            onlineTime:'2020-2-18 20：20：28'
           }
         },
         async created() {
@@ -80,10 +82,31 @@
               if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;};
               this.waitNum=data.waitNum||'0';
             },
-            handleSetOnlineEvent(){
-                this.$emit('onSetOnlineEvent')
+            async $getStaffInfo(){
+              let [err,data]=await getStaffInfo();
+              if(err!==null){this.$message({type:'error',message:err||'系统错误'});return };
+
+            },
+            async handleSetOnlineEvent(){
+              if(this.onlineState==0){
+                let [err,data]=await setOnlineState({onlineState: 1});
+                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return };
+                await this.$getStaffInfo();
+                return;
+              };
+              if(this.onlineState==1){
+                let [err,data]=await setOnlineState({onlineState: 0});
+                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return };
+                await this.$getStaffInfo();
+                return;
+              };
+
             },
             handleGetNewOrderEvent(){
+               if(this.onlineState==0){
+                 this.$message({type:'info',message:'请先上线'});
+                 return;
+               };
                 this.$emit('onGetNewOrderEvent')
             }
         }
