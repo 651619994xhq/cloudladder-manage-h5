@@ -4,7 +4,7 @@
         <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>
         </div>
-        <div class="logo">B端资产管理中心</div>
+        <div class="logo">代客下单客服系统</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->

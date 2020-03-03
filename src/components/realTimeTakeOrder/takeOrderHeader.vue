@@ -107,7 +107,7 @@
             },
             handleGetNewOrderEvent(){
                if(this.onlineState==0){
-                 this.$message({type:'info',message:'请先上线'});
+                 this.$message({type:'info',message:'请先点击上线'});
                  return;
                };
                 this.$emit('onGetNewOrderEvent')

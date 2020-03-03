@@ -271,36 +271,7 @@
             async handleStartTaskEvent(index,row) {
                 //TODO 在这里调用 获取流程接口 开始弹出流程框
                 let [err,data]=await getOrderProcess({orderNo:row.orderNo});
-                // let data=[
-                //     {
-                //         nodeCode:1,    //对应节点
-                //         processSeq:'', //节点顺序
-                //         processType:'', //流程类型
-                //         componentCode:'sms_login', //组件编码
-                //         componentValue:'短信登录',//组件值
-                //     },
-                //     {
-                //         nodeCode:1,    //对应节点
-                //         processSeq:'', //节点顺序
-                //         processType:'', //流程类型
-                //         componentCode:'idcard', //组件编码
-                //         componentValue:'身份证信息',//组件值
-                //     },
-                //     {
-                //         nodeCode:1,    //对应节点
-                //         processSeq:'', //节点顺序
-                //         processType:'', //流程类型
-                //         componentCode:'bankcard', //组件编码
-                //         componentValue:'银行卡验证',//组件值
-                //     },
-                //     {
-                //         nodeCode:1,    //对应节点
-                //         processSeq:'', //节点顺序
-                //         processType:'', //流程类型
-                //         componentCode:'sms_verify', //组件编码
-                //         componentValue:'短信验证',//组件值
-                //     }
-                // ]
+                if(err!==null){this.$message({type:'error',message:err||'系统错误'});return ;}
                 this.processData.isShow=true;
                 this.processData.data=data||[];
 s            },
