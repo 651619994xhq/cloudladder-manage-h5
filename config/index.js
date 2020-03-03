@@ -22,8 +22,8 @@ module.exports = {
       // },
       '/xhq': {
         // target: 'https://fat01-h5windone.cbankhome.com',  //目标接口域名
-        // target:'http://10.10.25.7:8086',  //张通
-        target:'http://10.10.25.11:8086',  //乔向峰
+        target:'http://10.10.25.7:8086',  //张通
+        // target:'http://10.10.25.11:8086',  //乔向峰
         // target:'http://10.10.25.10:9010',  //孟祥荣
         // target:'http://10.10.25.153:8086',  //吴露
         changeOrigin: true,  //是否跨域
