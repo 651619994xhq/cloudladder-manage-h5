@@ -280,7 +280,6 @@
                 await this.onPaginationChange(value, 'handleCurrentChange')
             },
             async handleStartTaskEvent(index,row) {
-                //TODO 在这里调用 获取流程接口 开始弹出流程框
                 if(!row.orderNo){
                   this.$message({type:'error',message:'订单号为空'})
                   return ;
@@ -315,8 +314,6 @@
                 this.$message({type:'success',message:'操作成功'});
 
                 this.$refs['taskHeader'].$getWaitNum();
-
-
             },
         }
     }
