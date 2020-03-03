@@ -13,6 +13,6 @@ export const ComponentCode = {
   SMS_LOGIN:'sms_login',
   ID_CARD:'idcard',
   BANKCARD:'bankcard',
-  sms_verify:'sms_verify',
+  SMS_VERIFY:'sms_verify',
   isThisType
 }

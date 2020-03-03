@@ -41,7 +41,12 @@
         methods:{
           async $getSmsLogin(){
             let [err,data]=await getSmsLogin({orderNo:this.orderNo});
-
+            if(err!==null){this.$message({type:'error',message:err});return ;};
+            this.mobile=data.mobile;
+            this.code=data.validCode;
+          },
+          init(){
+            this.$getSmsLogin();
           }
 
         }

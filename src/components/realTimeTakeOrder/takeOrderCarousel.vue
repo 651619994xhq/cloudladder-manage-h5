@@ -2,12 +2,12 @@
   <el-dialog :visible.sync="isShow" :close-on-click-modal="false" :before-close="handleBeforeCloseEvent" width="80%">
     <div class="row flex-item flex-justify-start">
       <div class="carousel-container">
-        <el-carousel arrow="always" :autoplay="false" :loop="false" indicator-position="none" height="500px">
+        <el-carousel arrow="always" :autoplay="false" :loop="false" indicator-position="none" height="500px" v-on:change="handleChangeEvent" ref="carouselItem">
           <el-carousel-item v-for="(item,index) in data" :key="index">
-            <SmsLogin v-if="ComponentCode.SMS_LOGIN==item.componentCode" :order-no="orderNo"></SmsLogin>
-            <Bankcard v-if="ComponentCode.BANKCARD==item.componentCode" :order-no="orderNo"></Bankcard>
-            <IdCard v-if="ComponentCode.ID_CARD==item.componentCode" :order-no="orderNo"></IdCard>
-            <SmsVerify v-if="ComponentCode.sms_verify==item.componentCode" :order-no="orderNo"></SmsVerify>
+            <SmsLogin v-if="ComponentCode.SMS_LOGIN==item.componentCode" :order-no="orderNo"  :ref="ComponentCode.SMS_LOGIN"></SmsLogin>
+            <Bankcard v-if="ComponentCode.BANKCARD==item.componentCode" :order-no="orderNo" :ref="ComponentCode.BANKCARD"></Bankcard>
+            <IdCard v-if="ComponentCode.ID_CARD==item.componentCode" :order-no="orderNo"  :ref="ComponentCode.ID_CARD"></IdCard>
+            <SmsVerify v-if="ComponentCode.SMS_VERIFY==item.componentCode" :order-no="orderNo" :ref="ComponentCode.SMS_VERIFY"></SmsVerify>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -74,6 +74,32 @@
 
         },
         methods:{
+          //TODO 还需完善 把后端数据 根据 当期现有的code 重构一套数据出来
+          //设置init 事件
+           handleInitEvent(){
+               this.$nextTick(()=>{
+                 this.$refs['carouselItem'].setActiveItem(0);
+                 if(this.data[0]){
+                   if(ComponentCode.isThisType(this.data[0].componentCode)){
+                     this.$nextTick(()=>{
+                       this.$refs[this.data[0].componentCode][0].init();
+                     })
+                   }
+                 };
+               })
+           },
+            handleChangeEvent(index){
+               this.$nextTick(()=>{
+                 if(this.data[index]){
+                   if(ComponentCode.isThisType(this.data[index].componentCode)){
+                       this.$nextTick(()=>{
+                         this.$refs[this.data[index].componentCode][0].init();
+                       })
+                   }
+                 };
+
+               });
+            },
             handleBeforeCloseEvent(e){
                 this.$emit('onClose')
             },

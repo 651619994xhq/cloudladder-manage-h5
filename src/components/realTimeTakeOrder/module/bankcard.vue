@@ -6,27 +6,27 @@
     <el-divider></el-divider>
     <div class="row flex-item flex-justify-start full-width bottom">
       <div class="title1">姓名：</div>
-      <div class="title2">许剑波</div>
+      <div class="title2">{{userName}}</div>
       <el-button type="primary">复制</el-button>
     </div>
     <div class="row flex-item flex-justify-start full-width bottom">
       <div class="title1">身份证号：</div>
-      <div class="title2">4113122244322253535</div>
+      <div class="title2">{{idCardNo}}</div>
       <el-button type="primary">复制</el-button>
     </div>
     <div class="row flex-item flex-justify-start full-width bottom">
       <div class="title1">银行卡号：</div>
-      <div class="title2">4113122244322253535</div>
+      <div class="title2">{{bankcardNo}}</div>
       <el-button type="primary">复制</el-button>
     </div>
     <div class="row flex-item flex-justify-start full-width bottom">
       <div class="title1">开户银行：</div>
-      <div class="title2">中国银行</div>
+      <div class="title2">{{bankName}}</div>
       <el-button type="primary">复制</el-button>
     </div>
     <div class="row flex-item flex-justify-start full-width bottom">
       <div class="title1">预留手机号：</div>
-      <div class="title2">122312312434234</div>
+      <div class="title2">{{mobile}}</div>
       <el-button type="primary">复制</el-button>
     </div>
   </div>
@@ -45,17 +45,25 @@
         },
         data(){
             return {
-                mobile:'',
-                code:'',
+              userName:'',
+              bankName:'',
+              idCardNo:'',
+              bankcardNo:'',
+              mobile:''
             }
-        },
-        created() {
-            this.$getBankInfo();
         },
         methods:{
             async $getBankInfo(){
                 let [err,data]=await getBankInfo({orderNo:this.orderNo});
-
+                if(err!==null){this.$message({type:'error',message:err});return ;};
+                this.userName=data.userName;
+                this.bankName=data.bankName;
+                this.idCardNo=data.idCardNo;
+                this.bankcardNo=data.bankcardNo;
+                this.mobile=data.mobile;
+            },
+            init(){
+              this.$getBankInfo();
             }
 
         }

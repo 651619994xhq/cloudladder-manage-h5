@@ -24,13 +24,13 @@
                 code:'',
             }
         },
-        created() {
-            this.$getIdCard();
-        },
         methods:{
             async $getIdCard(){
                 let [err,data]=await getIdCard({orderNo:this.orderNo});
 
+            },
+            init(){
+              this.$getIdCard();
             }
 
         }

@@ -119,7 +119,7 @@
       style="padding:20px 0"
     >
     </el-pagination>
-    <TakeOrderCarousel :is-show="processData.isShow" :order-no="processData.orderNo" :data="processData.data" @onClose="processData.isShow=false"></TakeOrderCarousel>
+    <TakeOrderCarousel :is-show="processData.isShow" :order-no="processData.orderNo" :data="processData.data" @onClose="processData.isShow=false" ref="takeOrderCarouselElement"></TakeOrderCarousel>
   </div>
 </template>
 <script>
@@ -291,6 +291,7 @@
                 this.processData.isShow=true;
                 this.processData.data=data||[];
                 this.hideFullLoading();
+                this.$refs['takeOrderCarouselElement'].handleInitEvent();
           },
             /**
              * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
