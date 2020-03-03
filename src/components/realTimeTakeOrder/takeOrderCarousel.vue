@@ -83,7 +83,7 @@
                        this.$message({type:'error',message:'请填授信额度'})
                         return ;
                     };
-                    let [err,data]=await setOrderState({orderState:state,quota:this.quota});
+                    let [err,data]=await setOrderState({orderState:state,quota:this.quota,orderNo: this.orderNo});
                     if(err!==null){
                         this.$message({type:'error',message:err||'系统错误'});
                         return ;
@@ -92,7 +92,7 @@
                     return ;
                 };
 
-                let [err,data]=await setOrderState({orderState:state});
+                let [err,data]=await setOrderState({orderState:state,orderNo: this.orderNo});
                 if(err!==null){
                     this.$message({type:'error',message:err||'系统错误'});
                     return ;
