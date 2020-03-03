@@ -29,7 +29,7 @@
         },
         methods:{
             async $getIdCard(){
-                let [err,data]=await getIdCard({orderNo});
+                let [err,data]=await getIdCard({orderNo:this.orderNo});
 
             }
 

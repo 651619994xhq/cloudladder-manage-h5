@@ -40,7 +40,7 @@
         },
         methods:{
             async $getSmsVerify(){
-                let [err,data]=await getSmsVerify({orderNo});
+                let [err,data]=await getSmsVerify({orderNo:this.orderNo});
 
             }
 

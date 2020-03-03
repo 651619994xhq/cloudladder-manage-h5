@@ -40,7 +40,7 @@
         },
         methods:{
           async $getSmsLogin(){
-            let [err,data]=await getSmsLogin({orderNo});
+            let [err,data]=await getSmsLogin({orderNo:this.orderNo});
 
           }
 
