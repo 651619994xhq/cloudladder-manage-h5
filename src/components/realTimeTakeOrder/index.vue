@@ -292,25 +292,27 @@
                 this.processData.isShow=true;
                 this.processData.data=data||[];
                 this.hideFullLoading();
-s            },
+          },
             /**
              * 这个逻辑 先调用客服分配任务成功之后，在在清空查询条件 重新获取订单列表
              * @returns {Promise<void>}
              */
             async handleGetNewOrderEvent() {
+                this.showFullLoading();
                 let [err,data]=await assignCase();
-                if(err!=null){this.$message({type:'error',message:err||'系统错误'});return ;};
-                this.showTableLoading();
+                if(err!=null){this.hideFullLoading();this.$message({type:'error',message:err||'系统错误'});return ;};
                 let [err1, data1] = await getOrderList({mobileNo: '', orderNo: '', orderState: '', productCode: '',});
                 if (err1 !== null) {
+                    this.hideFullLoading();
                     this.$message({type: 'error', message: err || '系统错误'});
                     return;
                 };
-                this.hideTableLoading();
+                this.hideFullLoading();
                 this.tableData = data1.data || [];
                 this.pagination = {currentPage: 1, pageSize: 10, total: data1.total || 10};
                 this.queryTableData = {mobileNo: '',orderNo: '',orderState: '',productCode: '',};
                 this.saveTableData={mobileNo: '',orderNo: '',orderState: '',productCode: '',};
+              this.$message({type:'success',message:'操作成功'})
             },
         }
     }
