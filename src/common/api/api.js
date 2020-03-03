@@ -15,6 +15,7 @@ export default {
     GET_ORDER_NUM:'/console/queuer/getOrderNum', //
     GET_STAFF_INFO:'/console/staff/getStaffInfo', //获取客服信息
     GET_PRODUCT_LIST:'/console/product/getProductList', //获取产品列表
+    GET_MODULE_INFO:'/console/order/getOrderProcess', //获取模块节点流程
 
 
 }

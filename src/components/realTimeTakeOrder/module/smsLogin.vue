@@ -6,13 +6,13 @@
       <el-divider></el-divider>
       <div class="row flex-item flex-justify-start full-width">
         <div class="title1">手机号：</div>
-        <div class="title2">18614084016</div>
+        <div class="title2">{{mobile}}</div>
         <el-button type="primary">复制</el-button>
       </div>
       <el-divider></el-divider>
       <div class="row flex-item flex-justify-start full-width">
         <div class="title1">验证码：</div>
-        <div class="title2">4016</div>
+        <div class="title2">{{code}}</div>
         <el-button type="primary">复制</el-button>
       </div>
 
@@ -22,7 +22,22 @@
 <script>
     import {getSmsLogin} from "@/common/service";
     export default {
-        name: "smsLogin"
+        name: "smsLogin",
+        data(){
+          return {
+            mobile:'',
+            code:'',
+          }
+        },
+        created() {
+        },
+        methods:{
+          async $getSmsLogin(){
+            let [err,data]=await getSmsLogin({orderNo});
+
+          }
+
+        }
     }
 </script>
 
