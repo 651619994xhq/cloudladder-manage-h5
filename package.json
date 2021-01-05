@@ -11,7 +11,7 @@
     "test": "node build/test.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "element-ui": "^2.10.0",
     "js-cookie": "^2.2.0",
     "js-md5": "^0.7.3",
